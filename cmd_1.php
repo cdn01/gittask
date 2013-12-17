@@ -48,6 +48,9 @@ if(@$rs[0]['id']>0)
 		mysql_query($insert_send);
 		mysql_query("update article set postnum = postnum +1 ,ispost=1 where id ='".$rs[0]['id']."'");
 		mysql_query("update hotword set postnum = postnum +1 where id = '".$hotword_rs[0]["id"]."'");	
+	}else{
+		tmail($param['uname'],$response["msg"]);
+		die("over");
 	}
 	
 }
