@@ -135,6 +135,6 @@
 
     function tmail($accoutn,$err="账号异常")
     {
-    	mail('backcn@126.com', '微博账号异常', "账号：".$accoutn."    ".$err."    ".date("Y-m-d H:i:s",time()));
+    	mail('backcn@126.com', '微博账号异常', mb_convert_encoding("账号：".$accoutn."    ".$err."    ".date("Y-m-d H:i:s",time()), "GBK","UTF-8"));
     }
 ?>
