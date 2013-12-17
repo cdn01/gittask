@@ -15,7 +15,7 @@ if(@$rs[0]['id']>0)
 	mysql_query($sql);
 	
 	$param = array();
-	$param['uname'] = 'cmd_14@126.com';
+	$param['uname'] = 'cmd_16@126.com';
 	$param['pwd'] = 'qingyu';
 	$wb = new weibo();
 	// 登录
