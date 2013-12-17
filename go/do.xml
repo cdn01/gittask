@@ -77,4 +77,25 @@
           <isrand>1</isrand>
           <action>/var/www/html/task/trunk/cmd_13_send.php</action>
      </target> 
+     <target>
+          <max>10</max>
+          <current>10</current>
+          <rand>0</rand>
+          <isrand>1</isrand>
+          <action>/var/www/html/task/trunk/cmd_14_send.php</action>
+     </target> 
+      <target>
+          <max>10</max>
+          <current>10</current>
+          <rand>0</rand>
+          <isrand>1</isrand>
+          <action>/var/www/html/task/trunk/cmd_15_send.php</action>
+     </target> 
+      <target>
+          <max>10</max>
+          <current>10</current>
+          <rand>0</rand>
+          <isrand>1</isrand>
+          <action>/var/www/html/task/trunk/cmd_16_send.php</action>
+     </target> 
   </Do>
