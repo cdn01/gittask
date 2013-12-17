@@ -11,6 +11,8 @@ if(@$rs[0]['id']>0)
 	$user_sql = "select * from getuser order by atnum  asc   limit 2";
 	$user_rs = query($user_sql);
 	$users = " @".$user_rs[0]["screen_name"]."  "."@".$user_rs[1]["screen_name"];
+	$sql = "update getuser set atnum = atnum +1 where userid in ('".$user_rs[0]["userid"]."','".$user_rs[1]["userid"]."')";
+	mysql_query($sql);
 
 	$param = array();
 	$param['uname'] = 'cmd_14@126.com';
