@@ -72,7 +72,7 @@
      </target> 
      <target>
           <max>10</max>
-          <current>1</current>
+          <current>10</current>
           <rand>0</rand>
           <isrand>1</isrand>
           <action>/var/www/html/task/trunk/cmd_13_send.php</action>
