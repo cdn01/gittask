@@ -2,7 +2,7 @@
 include(str_replace("\\", "/", dirname(__FILE__))."/conn.php"); 
 $sql = "select * from article where isget=999 or  description is not null  order by postnum asc ,id desc limit 1 ;";
 $rs = query($sql);
-if(@$rs[0]['id']>0)
+if(@$rs[0]['id']>0) 
 {
 	$hotword_sql = "select * from hotword order by postnum  asc ,id asc limit 1";
 	$hotword_rs = query($hotword_sql);
