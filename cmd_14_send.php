@@ -49,13 +49,15 @@ if(@$rs[0]['id']>0)
 	print_r($response_p);
 	echo "\n===============response=======================\n";
 	$response = json_decode(trim("{".$response_p[1]."}"),true);
-	print_r($response);
+	print_r($response); 
 	if($response["ok"]==1)
 	{ 
 		$insert_send = "insert into send (username,postid,posttime) values ('".$param['uname']."','".$response['id']."','".date("Y-m-d H:i:s",time())."')";
 		mysql_query($insert_send);
 		mysql_query("update article set postnum = postnum +1 ,ispost=1 where id ='".$rs[0]['id']."'");
 		mysql_query("update hotword set postnum = postnum +1 where id = '".$hotword_rs[0]["id"]."'");	
+	}else{
+		tmail($param['uname'],$response["msg"]);
 	}
 	
 }
