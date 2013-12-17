@@ -5,7 +5,7 @@
 	define("DB_PWD", "123456");
 	define("DB_DATA", "task"); 
 	define("DB_CHAR", "utf8");
-	define("WWW", "/var/www/html/svntask/");
+	define("WWW", "/var/www/html/task/trunk/");
 	mysql_connect(DB_ROOT,DB_USER,DB_PWD);
 	mysql_select_db(DB_DATA);
 	mysql_query("set names ".DB_CHAR);

@@ -5,69 +5,69 @@
           <current>1</current>
           <rand>0</rand>
           <isrand>0</isrand>
-          <action>/var/www/html/svntask/qqlist.php</action>
+          <action>/var/www/html/task/trunk/qqlist.php</action>
      </target>  
      <target>
           <max>10</max>
           <current>5</current>
           <rand>0</rand>
           <isrand>1</isrand>
-          <action>/var/www/html/svntask/postWB.php</action>
+          <action>/var/www/html/task/trunk/postWB.php</action>
      </target> 
       <target>
           <max>10</max>
           <current>0</current>
           <rand>0</rand>
           <isrand>1</isrand>
-          <action>/var/www/html/svntask/bfire.php</action>
+          <action>/var/www/html/task/trunk/bfire.php</action>
      </target>
      <target>
           <max>10</max>
           <current>1</current>
           <rand>0</rand>
           <isrand>1</isrand>
-          <action>/var/www/html/svntask/bfire02.php</action>
+          <action>/var/www/html/task/trunk/bfire02.php</action>
      </target> 
      <target>
           <max>10</max>
           <current>6</current>
           <rand>0</rand>
           <isrand>1</isrand>
-          <action>/var/www/html/svntask/cmd_1.php</action>
+          <action>/var/www/html/task/trunk/cmd_1.php</action>
      </target> 
      <target>
           <max>1</max>
           <current>1</current>
           <rand>0</rand>
           <isrand>0</isrand>
-          <action>/var/www/html/svntask/getContent.php</action>
+          <action>/var/www/html/task/trunk/getContent.php</action>
      </target>
      <target>
           <max>8</max>
           <current>1</current>
           <rand>0</rand>
           <isrand>0</isrand>
-          <action>/var/www/html/svntask/send_cmd_2.php</action>
+          <action>/var/www/html/task/trunk/send_cmd_2.php</action>
      </target> 
      <target>
           <max>10</max>
           <current>1</current>
           <rand>0</rand>
           <isrand>0</isrand>
-          <action>/var/www/html/svntask/hotword.php</action>
+          <action>/var/www/html/task/trunk/hotword.php</action>
      </target> 
      <target>
           <max>10</max>
           <current>1</current>
           <rand>0</rand>
           <isrand>0</isrand>
-          <action>/var/www/html/svntask/getUser.php</action>
+          <action>/var/www/html/task/trunk/getUser.php</action>
      </target> 
      <target>
           <max>7</max>
           <current>1</current>
           <rand>0</rand>
           <isrand>0</isrand>
-          <action>/var/www/html/svntask/getUser2.php</action>
+          <action>/var/www/html/task/trunk/getUser2.php</action>
      </target> 
   </Do>
