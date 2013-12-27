@@ -67,3 +67,6 @@ statuses_count int not null default 0,
 atnum int not null  default 0,
 atuser varchar(50)
 )default character set utf8;
+
+
+
