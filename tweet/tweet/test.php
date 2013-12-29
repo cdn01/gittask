@@ -2,6 +2,7 @@
 
 # First call gets hidden form field authenticity_token
 # and session cookie
+
 $ch = curl_init();
 $sTarget = "https://twitter.com/";
 $cookie = "";

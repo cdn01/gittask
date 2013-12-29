@@ -1,6 +1,6 @@
 <?php
 	class tweet{
-		public $user,$pws,$token,$ch,$cookie;
+		public $user,$pws,$token,$ch,$cookie="";
 
 		/*
 			第一次访问返回Token
@@ -18,7 +18,7 @@
 			echo $html = curl_exec($this->ch);
 			preg_match('/<input type="hidden" value="([a-zA-Z0-9]*)" name="authenticity_token"\/>/', $html, $match);
 			echo $this->token = $match[1];
-			//die();
+			die();
 		}
 
 		/*

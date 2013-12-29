@@ -36,9 +36,10 @@
  	
  	// $bot=new Bot("https://www.twitter.com");
  	// echo $html=$bot->request();
-
+echo   $_SERVER['HTTP_USER_AGENT'];
+die();
 	include(str_replace("\\", "/", dirname(__FILE__))."/tweet.class.php"); 
 	$tweet = new tweet();
 	$tweet->login("cdn_01@126.com","qingyu");
-	$tweet->create("test love ".date("Y-m-d H:i:s",time()));
+	$tweet->create("test love 12312");
 ?>
