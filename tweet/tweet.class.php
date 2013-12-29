@@ -9,7 +9,7 @@
 			$this->ch = curl_init();
 			$sTarget = "https://twitter.com/";
 			curl_setopt($this->ch, CURLOPT_URL, $sTarget);
-			curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, false);
 			curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, false);
 			curl_setopt($this->ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);

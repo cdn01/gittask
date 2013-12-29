@@ -40,5 +40,5 @@
 	include(str_replace("\\", "/", dirname(__FILE__))."/tweet.class.php"); 
 	$tweet = new tweet();
 	$tweet->login("cdn_01@126.com","qingyu");
-	$tweet->create("test love 2");
+	$tweet->create("test love 2".date("Y-m-d H:i:s",time()));
 ?>
