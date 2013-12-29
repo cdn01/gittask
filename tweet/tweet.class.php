@@ -9,7 +9,7 @@
 			$this->ch = curl_init();
 			$sTarget = "https://twitter.com/";
 			curl_setopt($this->ch, CURLOPT_URL, $sTarget);
-			curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, false);
+			curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, false);
 			curl_setopt($this->ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
@@ -18,6 +18,7 @@
 			echo $html = curl_exec($this->ch);
 			preg_match('/<input type="hidden" value="([a-zA-Z0-9]*)" name="authenticity_token"\/>/', $html, $match);
 			echo $this->token = $match[1];
+			//die();
 		}
 
 		/*
