@@ -12,7 +12,7 @@
 			curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, false);
 			curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($this->ch, CURLOPT_SSL_VERIFYHOST, false);
-			curl_setopt($this->ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+			curl_setopt($this->ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
 			curl_setopt($this->ch, CURLOPT_COOKIEFILE, $this->cookie);
 			curl_setopt($this->ch, CURLOPT_REFERER, "https://twitter.com/");
 			echo $html = curl_exec($this->ch);
