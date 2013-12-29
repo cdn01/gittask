@@ -55,9 +55,4 @@
 		}
 	}
 ?>
-
-<?php
-	$tweet = new tweet();
-	$tweet->login("cdn_01@126.com","qingyu");
-	$tweet->create("test love");
-?>
+ 
