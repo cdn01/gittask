@@ -18,8 +18,7 @@ $html = curl_exec($ch);
 # parse authenticity_token out of html response
 preg_match('/<input type="hidden" value="([a-zA-Z0-9]*)" name="authenticity_token"\/>/', $html, $match);
 $authenticity_token = $match[1];
-
-die();
+ 
 $username = "cdn_01@126.com";
 $password = "qingyu";
 
@@ -29,7 +28,8 @@ $password = "qingyu";
 	
 */
 # set post data
-$sPost = "session[username_or_email]=$username&session[password]=$password&return_to_ssl=true&scribe_log=&redirect_after_login=%2F&authenticity_token=$authenticity_token";
+
+$sPost = "session%5Busername_or_email%5D=".urlencode($username)."&session%5Bpassword%5D=".$password."&remember_me=1&return_to_ssl=true&scribe_log=&redirect_after_login=%2F&authenticity_token=".$authenticity_token;
 
 # second call is a post and performs login
 $sTarget = "https://twitter.com/sessions";
@@ -47,7 +47,7 @@ $html = curl_exec($ch);
 	create
 */
 
-$cPost = "authenticity_token=".$authenticity_token."&place_id=&status=".time();
+$cPost = "authenticity_token=".$authenticity_token."&place_id=&status=".date('Y-m-d H:i:s',time());
 
 $sTarget = "https://twitter.com/i/tweet/create";
 curl_setopt($ch, CURLOPT_URL, $sTarget);
