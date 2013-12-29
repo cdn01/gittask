@@ -2,7 +2,7 @@
 
 # First call gets hidden form field authenticity_token
 # and session cookie
-
+date_default_timezone_set("Asia/Chongqing");	
 $ch = curl_init();
 $sTarget = "https://twitter.com/";
 $cookie = "";
