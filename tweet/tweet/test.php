@@ -19,6 +19,7 @@ $html = curl_exec($ch);
 preg_match('/<input type="hidden" value="([a-zA-Z0-9]*)" name="authenticity_token"\/>/', $html, $match);
 $authenticity_token = $match[1];
 
+die();
 $username = "cdn_01@126.com";
 $password = "qingyu";
 
