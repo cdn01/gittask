@@ -7,7 +7,7 @@ $ch = curl_init();
 $sTarget = "https://twitter.com/";
 $cookie = "";
 curl_setopt($ch, CURLOPT_URL, $sTarget);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
@@ -17,7 +17,7 @@ $html = curl_exec($ch);
 
 # parse authenticity_token out of html response
 preg_match('/<input type="hidden" value="([a-zA-Z0-9]*)" name="authenticity_token"\/>/', $html, $match);
-$authenticity_token = $match[1];
+echo $authenticity_token = $match[1];
  
 $username = "cdn_01@126.com";
 $password = "qingyu";
