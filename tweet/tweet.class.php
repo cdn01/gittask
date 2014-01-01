@@ -68,8 +68,8 @@
 
 		*/
 
-		public function getDiscoverList(){
-			$get_url = "https://twitter.com/i/discover";
+		public function getDiscoverList($cursor){ 
+			$get_url = "https://twitter.com/i/discover/timeline?include_available_features=1&include_entities=1&last_note_ts=0&scroll_cursor=".$cursor;
 			curl_setopt($this->ch, CURLOPT_URL, $get_url);
 			curl_setopt($this->ch, CURLOPT_POST, false); 
 			curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
