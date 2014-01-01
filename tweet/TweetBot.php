@@ -10,6 +10,7 @@ class TweetBot
 	private $debug=false;
 	private $cookie="cookies.txt_file";
 	private $token;
+	private $requestHeader;
 	
 	/*__construct*/
 	public function __construct($url_input=""){
@@ -45,7 +46,9 @@ class TweetBot
 			curl_setopt($this->conn, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($this->conn, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($this->conn, CURLOPT_USERAGENT, $this->user_agent);
-			return curl_exec($this->conn);
+			$html = curl_exec($this->conn);
+			$this->requestHeader = curl_getinfo($this->conn);
+			return $html;
 		}
 		return null;
 	}
@@ -91,9 +94,17 @@ class TweetBot
 		$authenticity_token = $this->token;
 		return $html=$this->request("authenticity_token={$authenticity_token}&username=$user&password=$psw");
 	}
+	public function discover($cursor=""){
+		$this->setUrl("https://mobile.twitter.com/api/universal_discover");
+		$authenticity_token = $this->token;
+		return $html=$this->request("m5_csrf_tkn=abcdefghijklmnopqrstuv&modules=status,wtf&scroll_dir=1");
+	}
 	public function html($url){
 		$this->setUrl($url);
 		return $html=$this->request();
+	}
+	public function getHeader(){
+		return $this->requestHeader;
 	}
 	/*END-GET-SETTERS VARIABLE*/
 }
@@ -108,19 +119,21 @@ class TweetBot
 	$msg = "happy new year sss ".date("Y-m-d H:i:s",time());
 	$bot=new TweetBot(); 
 	echo "<hr>getToken<br>";
-	$authenticity_token=$bot->getToken();  
+	echo $authenticity_token=$bot->getToken();  
 	echo "<hr>login<br>";
 	$html=$bot->login($username,$password); 
 	// echo "<hr>create<br>";
 	// $html=$bot->create($msg); 
 	echo "<hr>homeHtml<br>";
 
-	$html = $bot->html("https://mobile.twitter.com/api/universal_discover");
+	
+	echo $html = $bot->html("https://mobile.twitter.com/i/discover");
+	print_r($bot->getHeader()) ;
+	// $html = $bot->discover();
 
-	$content_arr = json_encode($html);
+	// $content_arr = json_encode($html);
 
-	print_r($content_arr);
-
+	// print_r($content_arr);
 
 
 
