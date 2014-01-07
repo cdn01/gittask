@@ -213,5 +213,10 @@ class weibo
             }
             return $this->_html($url,$postdata);
         } 
+        public function reply($id,$message){
+            $url = "http://m.weibo.cn/commentDeal/addCmt?id=$id&uicode=20000060";
+            $postdata = "content=".urlencode($message)."&rt=1";
+            return $this->_html($url,$postdata);
+        }
 }
 ?>

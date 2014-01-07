@@ -70,3 +70,13 @@ atuser varchar(50)
 
 
 
+//
+create table reply(
+mid bigint primary key ,
+ispost int not null default 0,
+gettime datetime,
+posttime datetime,
+puser varchar(50),
+gtext text,
+guser varchar(50)
+)default character set utf8;
