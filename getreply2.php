@@ -2,7 +2,7 @@
 include(str_replace("\\", "/", dirname(__FILE__))."/wb/conn.php");  
 include(str_replace("\\", "/", dirname(__FILE__))."/wb/wb.php");  
  
-$param['uname'] = 'cmd_01@126.com';
+$param['uname'] = 'cmd_02@126.com';
 $param['pwd'] = 'qingyu';
 $wb = new weibo();
 // 登录
@@ -34,11 +34,11 @@ foreach ($list_arr['mblogList'] as $key => $value) {
 	var len = <?php echo count($list_arr)?>;
 	var nextpage=<?php echo $page+1;?>;
 	if(nextpage > 10){
-		setTimeout("location.href='test.php?page=1'",20000);
+		setTimeout("location.href='getreply2.php?page=1'",20000);
 	}
 	else if(len==undefined||len<1){
-		setTimeout("location.href='test.php?page=<?php echo $page;?>'",10000);
+		setTimeout("location.href='getreply2.php?page=<?php echo $page;?>'",10000);
 	}
 	else
-	setTimeout("location.href='test.php?page=<?php echo $page+1;?>'",10000);
+	setTimeout("location.href='getreply2.php?page=<?php echo $page+1;?>'",10000);
 </script>
