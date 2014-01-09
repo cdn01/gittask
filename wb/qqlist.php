@@ -1,12 +1,14 @@
 <?php
 	include(str_replace("\\", "/", dirname(__FILE__))."/conn.php");
-	$qqnws = getHtml2("http://roll.news.qq.com/","http://roll.news.qq.com/interface/roll.php?".rand()."&cata=&site=news&date=&page=1&mode=2&of=json");
+	$page = empty($_REQUEST['page'])?1:($_REQUEST['page']>10?1:$_REQUEST['page']); 
+	$qqnws = getHtml2("http://roll.news.qq.com/","http://roll.news.qq.com/interface/roll.php?".rand()."&cata=&site=news&date=&page=$page&mode=2&of=json");
 	$qqnws = mb_convert_encoding($qqnws, "UTF-8","GBK");
-	$qqArr = json_decode(trim($qqnws),true); 
+	$qqArr = json_decode(trim($qqnws),true);  
 	$dataList = $qqArr['data']['article_info'];
 	$p= "/<div class=\"listT c\"><span class=\"t-tit\">\[(.*)\]<\/span><dl><dt><span class=\"t-time\">(.*)<\/span><a target=\"_blank\" href=\"(.*)\" >(.*)<\/a><\/dt><dd>(.*)...<a/U";
 	preg_match_all($p, $dataList, $matches);
 	$qqlistArr = array();
+
 	foreach($matches[4] as $key=>$val)
 	{
 		$qqlistArr[$key]["title"] = str_conv($val);
@@ -23,9 +25,10 @@
 		}
 		$qqlistArr[$key]["content"] = str_conv(trim(preg_replace("/<\/?(.*)>/i", "", $matches[5][$key]))); 
 
-		$sql = "insert into article (title,type,gettime,link,description) values ('".$qqlistArr[$key]["title"]."','".$qqlistArr[$key]["type"]."','".$qqlistArr[$key]["time"]."','".$qqlistArr[$key]["link"]."','".$qqlistArr[$key]["content"]."')";
+		echo $sql = "insert into article (title,type,gettime,link,description) values ('".$qqlistArr[$key]["title"]."','".$qqlistArr[$key]["type"]."','".$qqlistArr[$key]["time"]."','".$qqlistArr[$key]["link"]."','".$qqlistArr[$key]["content"]."')";
 		if(mysql_query($sql))
-		{
+		{ 
+
 			if($qqlistArr[$key]["image"]!="")
 			{
 				$articleid = mysql_insert_id();
@@ -45,4 +48,6 @@
 			}
 		}
 	}
+	$nextpage = $page+1;
+	redirect("qqlist.php?page=$nextpage",20);
 ?>

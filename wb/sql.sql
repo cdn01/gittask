@@ -80,3 +80,13 @@ puser varchar(50),
 gtext text,
 guser varchar(50)
 )default character set utf8;
+
+
+//
+create table count(
+id primary key auto_increment,
+user varchar(50),
+psw varchar(50),
+postnum int not null default 0,
+useful int not null default 0 
+)default character set utf8;

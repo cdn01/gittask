@@ -1,6 +1,5 @@
 <?php
-include(str_replace("\\", "/", dirname(__FILE__))."/wb/conn.php");  
-include(str_replace("\\", "/", dirname(__FILE__))."/wb/wb.php");  
+include(str_replace("\\", "/", dirname(__FILE__))."/wb/conn.php");   
  
 $param['uname'] = 'cmd_01@126.com';
 $param['pwd'] = 'qingyu';
