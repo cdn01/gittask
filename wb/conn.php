@@ -20,5 +20,26 @@
 		echo "<script type='text/javascript'>setTimeout(\"location.href='".$page."'\",".($second*1000).");</script>" ;
 	}
 	
+	function dwz($url){
+		$ch=curl_init();
+		curl_setopt($ch,CURLOPT_URL,"http://dwz.cn/create.php");
+		curl_setopt($ch,CURLOPT_POST,true);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+		$data=array('url'=> $url);
+		curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
+		$strRes=curl_exec($ch);
+		curl_close($ch);
+		$arrResponse=json_decode($strRes,true);
+		if($arrResponse['status']==0)
+		{
+		/**错误处理*/
+		echo iconv('UTF-8','GBK',$arrResponse['err_msg'])."\n";
+		}
+		/** tinyurl */
+		print_r($arrResponse);
+		echo $arrResponse['tinyurl'];
+		return  $arrResponse['tinyurl'];
+
+	}
 	// mylog("sdf");s
 ?>

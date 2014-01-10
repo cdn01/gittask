@@ -47,19 +47,20 @@
 
 	function shortUrl($url)
 	{
-		ob_start();
-		$url = "http://121.199.47.205/web/json.php?type=t.cn&mk=a&xzurl=".($url);
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_HEADER, false); 
-        curl_setopt($ch, CURLOPT_TIMEOUT, 60);   
-        curl_exec($ch);
-        curl_close($ch);
-        $_str = ob_get_contents();   
-        ob_end_clean(); 
-        $_str = str_replace("({", "{", $_str);
-        $_str = str_replace("})", "}", $_str);
-        $rs = json_decode($_str,true);
-        return $rs["url"];
+		$ch=curl_init();
+		curl_setopt($ch,CURLOPT_URL,"http://189.io/?m=shorturl&c=index&a=produce");
+		curl_setopt($ch,CURLOPT_POST,true);
+		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
+		$data=array('url'=> $url);
+		curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
+		$strRes=curl_exec($ch);
+		curl_close($ch);
+		$arrResponse=json_decode($strRes,true);
+		if($arrResponse['status']==0)
+		{ 
+			return $arrResponse['msg'];
+		}
+		return $url; 
 	}
 	// echo shoutUrl("http://www.php.net/manual/zh/function.date.php");
 
