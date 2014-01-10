@@ -83,8 +83,8 @@ guser varchar(50)
 
 
 //
-create table count(
-id primary key auto_increment,
+create table account(
+id int primary key auto_increment,
 user varchar(50),
 psw varchar(50),
 postnum int not null default 0,
