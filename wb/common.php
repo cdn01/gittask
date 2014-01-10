@@ -46,21 +46,8 @@
 	}
 
 	function shortUrl($url)
-	{
-		$ch=curl_init();
-		curl_setopt($ch,CURLOPT_URL,"http://189.io/?m=shorturl&c=index&a=produce");
-		curl_setopt($ch,CURLOPT_POST,true);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-		$data=array('url'=> $url);
-		curl_setopt($ch,CURLOPT_POSTFIELDS,$data);
-		$strRes=curl_exec($ch);
-		curl_close($ch);
-		$arrResponse=json_decode($strRes,true);
-		if($arrResponse['status']==0)
-		{ 
-			return $arrResponse['msg'];
-		}
-		return $url; 
+	{ 
+		return urlencode(); 
 	}
 	// echo shoutUrl("http://www.php.net/manual/zh/function.date.php");
 
