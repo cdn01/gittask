@@ -2,11 +2,11 @@
 include(str_replace("\\", "/", dirname(__FILE__))."/wb/conn.php");   
 
 
-echo $sql = "select * from article where ispost = 0 order by gettime desc limit 1 ";
+echo $sql = "select * from article_joke where ispost = 0 order by gettime desc limit 1 ";
 echo "<hr><br>";
 $article_rs = query($sql);
 if($article_rs){
-	echo $sql = "update article set ispost = 1 where id = ".$article_rs[0]['id'];
+	echo $sql = "update article_joke set ispost = 1 where id = ".$article_rs[0]['id'];
 	echo "<hr><br>";
 	mysql_query($sql);	
 }
