@@ -1,5 +1,5 @@
 <?php
-define("DB_ROOT", "192.168.1.1");
+define("DB_ROOT", "localhost");
 define("DB_USER", "root");
 define("DB_PWD", "");
 define("DB_DATA", "task"); 
