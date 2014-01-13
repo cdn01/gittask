@@ -1,6 +1,6 @@
 <?php
-	include("/var/www/html/twitter/lib/curl.class.php");
-     	include("/var/www/html/twitter/lib/config.php");
+	include(str_replace("\\", "/", dirname(__FILE__))."/lib/curl.class.php");
+    include(str_replace("\\", "/", dirname(__FILE__))."/lib/config.php");
 	date_default_timezone_set("Asia/Chongqing");
 	/*
 	include("/var/www/html/twitter/lib/Snoopy.class.php");
