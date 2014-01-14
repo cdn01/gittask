@@ -39,4 +39,10 @@ function str_conv($str)
 	return $str;
 }
 
+function diffBot($url){
+    $url = "http://diffbot.com/api/article?token=diffbotcomtestdrive&format=json&tags=true&url=".urlencode($url);
+    $diffbot = html($url);
+    return $diffbot;
+}
+
 ?>

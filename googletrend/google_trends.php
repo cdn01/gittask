@@ -1,15 +1,7 @@
 <?php
 	include(str_replace("\\", "/", dirname(__FILE__))."/lib/curl.class.php");
     include(str_replace("\\", "/", dirname(__FILE__))."/lib/config.php");
-	date_default_timezone_set("Asia/Chongqing");
-	/*
-	include("/var/www/html/twitter/lib/Snoopy.class.php");
-	$snoopy = new Snoopy();
-	$url = "http://www.google.com/trends/hottrends/hotItems";
-	$post_data = array("ajax"=>"1","htd"=>"20131118","pn"=>"p1","htv"=>1);
-	$snoopy->submit($url,$post_data);
-	print_r($snoopy->results);
-	*/
+	date_default_timezone_set("Asia/Chongqing"); 
 	$j = 1;
 	for($i=0;$i<2;$i++)
 	{
@@ -21,7 +13,7 @@
 		$my_curl->openCurl($url,"ajax=1&htd=".$htd."&pn=p1&htv=l");
 		//print_r($my_curl->getOutput());
 		$response = json_decode($my_curl->getOutput(),true);
-		//print_r($response['trendsByDateList']);
+		print_r($response['trendsByDateList']);
 		$article = array();
 		try{
 			foreach($response['trendsByDateList'] as $_k=>$_v)
@@ -31,21 +23,15 @@
 					foreach($__v['newsArticlesList'] as $____v)
 					{
 						$article[]= $____v;
-						// echo $sql = "insert into article (title,link,source,snippet,gettime) values ('".$____v['title']."','".$____v['link']."','".$____v['source']."','".$____v['snippet']."','".time()."')";		
-						$sql = " call insertarticle('".$____v['title']."','".$____v['link']."','".$____v['source']."','".$____v['snippet']."','".time()."')";
-						//echo "\r\n";
-						mysql_query($sql);
-						file_put_contents("/var/www/html/twitter/log/log_".date("Ymd",time()),$____v['title']."->".$____v['link']."\r\n",FILE_APPEND);
+						echo $sql = "insert into article (title,link,source,snippet,gettime) values ('".str_conv($____v['title'])."','".str_conv($____v['link'])."','".str_conv($____v['source'])."','".str_conv($____v['snippet'])."','".time()."')";		
+						mysql_query($sql); 
 					}
 				}
 			}
 		}catch(Exception $e){
-			sleep(20);
-			file_put_contents("/var/www/html/twitter/log/log_".date("Ymd",time()),$e->getMessage()."\r\n===================================================\r\n",FILE_APPEND);
+			sleep(20); 
 		}
-		$my_curl->closeCurl();
-		file_put_contents("/var/www/html/twitter/log/log_".date("Ymd",time()),"\r\n===========================".$htd."========================\r\n",FILE_APPEND);
-		//print_r($article);		
+		$my_curl->closeCurl(); 
 	}
 
 
