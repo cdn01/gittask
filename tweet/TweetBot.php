@@ -102,7 +102,7 @@ class TweetBot
 	}
 	public function login($user,$psw){
 		$this->setUrl("https://mobile.twitter.com/session");
-		$authenticity_token = $this->token;
+		$authenticity_token = $this->getToken();
 		return $html=$this->request("authenticity_token={$authenticity_token}&username=$user&password=$psw");
 	}
 	public function discover($next_cursor=""){
@@ -122,27 +122,32 @@ class TweetBot
 	public function getHeader(){
 		return $this->requestHeader;
 	}
+
+	public function getSearch($key="a"){
+		$this->setUrl("https://mobile.twitter.com/api/universal_search");
+		$post_data = "q=".$key."&s=typd&modules=tweet%2Cuser%2Cuser_gallery%2Csuggestion%2Cnews%2Cevent%2Cmedia_gallery&pc=true&m5_csrf_tkn=omy2lydyxlf8c2s4g";
+		return $this->request($post_data);
+	}
 	/*END-GET-SETTERS VARIABLE*/
 }
 ?>
 
 <?php
-	include(str_replace("\\", "/", dirname(__FILE__))."/conn.php");
-	$text='http://www.clshack.com';
+	// include(str_replace("\\", "/", dirname(__FILE__))."/conn.php"); 
     $password='qingyu';
 	$username='cdn_01@126.com';  
 	$msg = "happy new year sss ".date("Y-m-d H:i:s",time());
 	$bot=new TweetBot(); 
-	echo "<hr>getToken<br>";
-	echo $authenticity_token=$bot->getToken();  
-	echo "<hr>login<br>";
+	// echo "<hr>getToken<br>";
+	// echo $authenticity_token=$bot->getToken();  
+	// echo "<hr>login<br>";
 	$html=$bot->login($username,$password); 
 	echo "<hr>create<br>";
-	$html=$bot->create($msg); 
+	// $html=$bot->create($msg); 
 	// echo "<hr>homeHtml<br>";
 
 	
-	echo $html = $bot->html("https://mobile.twitter.com/i/discover");
+	// echo $html = $bot->html("https://mobile.twitter.com/i/discover");
 	//print_r($bot->getHeader()) ;
 	// $html = $bot->discover();
 
@@ -155,22 +160,26 @@ class TweetBot
 
 	echo "<hr>discover<br>";
 	// print_r() ;
-	$cursor = $_GET["next"]?$_GET["next"]:"";
-	$modles = $bot->discover($cursor);
-	//print_r($modles["modules"] );
-	foreach($modles["modules"] as $k=>$v){
-		$id = $v["status"]["data"]["id"];
-		$username = $v["status"]["data"]["user"]["screen_name"];
-		if($username!="" and $username !=null){
-			$sql = "insert into reply (user,pid,gettime) values ('".$username."','".$id."','".date("Y-m-d H:i:s",time())."')";
-			mysql_query($sql);	
-		}
-	}
-	print_r($modles["metadata"]);
-	$next_cursor = $modles["metadata"]["next_cursor"];
+	// $cursor = $_GET["next"]?$_GET["next"]:"";
+	// $modles = $bot->discover($cursor);
+	// //print_r($modles["modules"] );
+	// foreach($modles["modules"] as $k=>$v){
+	// 	$id = $v["status"]["data"]["id"];
+	// 	$username = $v["status"]["data"]["user"]["screen_name"];
+	// 	if($username!="" and $username !=null){
+	// 		$sql = "insert into reply (user,pid,gettime) values ('".$username."','".$id."','".date("Y-m-d H:i:s",time())."')";
+	// 		mysql_query($sql);	
+	// 	}
+	// }
+	// print_r($modles["metadata"]);
+	// $next_cursor = $modles["metadata"]["next_cursor"];
 	// $bot->discover($next_cursor);
+
+	$html = $bot->getSearch();
+	$response_arr = json_decode($html,true);
+	print_r($html);
 
 ?>
 <script type='text/javascript'>
-	setTimeout("location.href='TweetBot.php?next=<?php echo $next_cursor;?>'",10000);
+	// 
 </script>
