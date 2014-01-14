@@ -126,7 +126,9 @@ class TweetBot
 	public function getSearch($key="a"){
 		$this->setUrl("https://mobile.twitter.com/api/universal_search");
 		$post_data = "q=".$key."&s=typd&modules=tweet%2Cuser%2Cuser_gallery%2Csuggestion%2Cnews%2Cevent%2Cmedia_gallery&pc=true&m5_csrf_tkn=omy2lydyxlf8c2s4g";
-		return $this->request($post_data);
+		$html = $this->request($post_data);
+		$rs = json_decode(substr($html, strpos($html, '{"metadata":{"')),true);
+		return $rs;
 	}
 	/*END-GET-SETTERS VARIABLE*/
 }
@@ -175,9 +177,15 @@ class TweetBot
 	// $next_cursor = $modles["metadata"]["next_cursor"];
 	// $bot->discover($next_cursor);
 
-	$html = $bot->getSearch();
-	$response_arr = json_decode($html,true);
-	print_r($html);
+	$html = $bot->getSearch(); 
+	foreach($html["modules"] as $k=>$v){
+		$id = $v["news"]["data"]["id"];
+		$username = $v["news"]["data"]["user"]["screen_name"];
+		if($username!="" and $username !=null){
+			$sql = "insert into en_reply (user,pid,gettime) values ('".$username."','".$id."','".date("Y-m-d H:i:s",time())."')";
+			mysql_query($sql);	
+		}
+	}
 
 ?>
 <script type='text/javascript'>
