@@ -135,7 +135,7 @@ class TweetBot
 ?>
 
 <?php
-	// include(str_replace("\\", "/", dirname(__FILE__))."/conn.php"); 
+	include(str_replace("\\", "/", dirname(__FILE__))."/conn.php"); 
     $password='qingyu';
 	$username='cdn_01@126.com';  
 	$msg = "happy new year sss ".date("Y-m-d H:i:s",time());

@@ -1,9 +1,9 @@
 <?php
 
-	define("DB_ROOT", "localhost");
+	define("DB_ROOT", "192.168.26.141");
 	define("DB_USER", "root");
-	define("DB_PWD", "");
-	define("DB_DATA", "tweet"); 
+	define("DB_PWD", "123456");
+	define("DB_DATA", "task"); 
 	define("DB_CHAR", "utf8");
 	define("WWW", "/var/www/html/task/trunk/");
 	mysql_connect(DB_ROOT,DB_USER,DB_PWD);
