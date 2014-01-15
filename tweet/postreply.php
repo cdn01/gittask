@@ -7,6 +7,7 @@
 	$username='cdn_01@126.com';  
 	$msg = "happy new year sss ".date("Y-m-d H:i:s",time());
 	$bot=new TweetBot();  
+	echo $authenticity_token=$bot->getToken();  
 	$html=$bot->login($username,$password);  
 
 	$sql = "select * from en_article where ispost=0 order by replynum asc limit 1 ;";
@@ -22,6 +23,10 @@
 	mysql_query($sql);
 
 	////// 
+	 
+
+
+	////
 	echo "\n";
 	echo "\n";
 	echo $reply_url = short_url("http://mall0592.duapp.com/index.php?_t=".date("Y/d/m/H/i/s",time())."&c=f");
@@ -30,14 +35,17 @@
 	echo $msg = "@".$reply[0]['user']."  ".html_decode($en_article[0]['title'])."  ".$reply_url;
 	echo "\n";
 
-	echo $url = "https://mobile.twitter.com/".$reply[0]['user']."/status/".$reply[0]['pid']; 
-	echo $html = $bot->html($url);
+	echo $refer = "https://mobile.twitter.com/".$reply[0]['user']."/status/".$reply[0]['pid']; 
+
+	$html = $bot->html($refer);
 
 	echo $html = $bot->status_activity($reply[0]['pid']);
+	
 	echo "\n";
-	$html = $bot->reply($reply[0]['pid'],$msg);
+	// echo $html = $bot->create($msg,$reply[0]['pid']);
+	echo $html = $bot->reply($reply[0]['pid'],$msg,$refer);
 	//print_r($html);
 ?>
 <script type='text/javascript'>
 	 
-</script>s
+</script>

@@ -29,8 +29,8 @@ class TweetBot
 	/*END __destruct*/
 	
 	/*function*/
-	public function request($post=false){
-		$this->getUrl();
+	public function request($post=false,$refer=false){
+		// echo $this->getUrl();
 		if($this->conn!=null){
 			curl_setopt($this->conn, CURLOPT_URL, $this->getUrl());
 			if($post){
@@ -39,6 +39,9 @@ class TweetBot
 			}
 			else{
 				curl_setopt($this->conn, CURLOPT_POST, 0);
+			}
+			if($refer){
+				curl_setopt ($this->conn, CURLOPT_REFERER, $refer);
 			}
 			curl_setopt($this->conn, CURLOPT_TIMEOUT, 60);
 			curl_setopt($this->conn, CURLOPT_RETURNTRANSFER, true);
@@ -97,14 +100,13 @@ class TweetBot
 	}
 	public function create($msg){
 		$this->setUrl("https://mobile.twitter.com/");	
-		$authenticity_token = $this->token;
+		$authenticity_token = $this->token; 
 		return $html=$this->request("authenticity_token={$authenticity_token}&tweet[text]=$msg&commit=Tweet");
 	}
 	public function login($user,$psw){
 		$this->setUrl("https://mobile.twitter.com/session");
-		$authenticity_token = $this->getToken();
-
-		return $html=$this->request("authenticity_token=$authenticity_token&username=".urlencode($user)."&password=$psw");
+		$authenticity_token = $this->token;
+		return $html=$this->request("authenticity_token={$authenticity_token}&username=$user&password=$psw");
 	}
 	public function discover($next_cursor=""){
 		$this->setUrl("https://mobile.twitter.com/api/universal_discover");
@@ -133,12 +135,12 @@ class TweetBot
 		return $rs;
 	}
 
-	public function reply($id,$msg)
+	public function reply($id,$msg,$refer=false)
 	{
 		$this->setUrl("https://mobile.twitter.com/api/tweet");
-		$post_data = "tweet%5Btext%5D=".urlencode($msg)."&tweet%5Bin_reply_to_status_id%5D=".$id."&m5_csrf_tkn=omy2lydyxlf8c2s4g";
-
-		return $this->request($post_data);
+		$post_data = "tweet[text]=".$msg."&tweet[in_reply_to_status_id]=".$id."&m5_csrf_tkn=omy2lydyxlf8c2s4g";
+		echo $this->cookie;
+		return $this->request($post_data,$refer);
 	}
 
 	public function status_activity($id)
@@ -147,8 +149,5 @@ class TweetBot
 		$post_data = "replyTo=".$id."&m5_csrf_tkn=omy2lydyxlf8c2s4g"; 
 		return $this->request($post_data);
 	}
-	
-	/*END-GET-SETTERS VARIABLE*/
 }
 ?>
-

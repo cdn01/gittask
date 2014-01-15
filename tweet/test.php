@@ -6,7 +6,7 @@
 	$msg = "happy new year sss ".date("Y-m-d H:i:s",time());
 	$bot=new TweetBot(); 
 	// echo "<hr>getToken<br>";
-	// echo $authenticity_token=$bot->getToken();  
+	$authenticity_token=$bot->getToken();  
 	// echo "<hr>login<br>";
 	$html=$bot->login($username,$password); 
 	echo "<hr>create<br>";

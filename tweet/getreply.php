@@ -6,7 +6,7 @@
 	$msg = "happy new year sss ".date("Y-m-d H:i:s",time());
 	$bot=new TweetBot(); 
 	// echo "<hr>getToken<br>";
-	// echo $authenticity_token=$bot->getToken();  
+	echo $authenticity_token=$bot->getToken();  
 	// echo "<hr>login<br>";
 	$html=$bot->login($username,$password); 
 	echo "<hr>create<br>";
@@ -43,7 +43,7 @@
 	// $bot->discover($next_cursor);
 
 	echo $cursor = $_GET["next"]?$_GET["next"]:"";
-	$html = $bot->getSearch("b",$cursor); 
+	$html = $bot->getSearch("c",$cursor); 
 	print_r($html);
 	foreach($html["modules"] as $k=>$v){
 		$id = $v["status"]["data"]["id"];
