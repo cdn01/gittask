@@ -1,19 +1,32 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 192.168.1.1
-Source Server Version : 50508
-Source Host           : localhost:3306
+Source Server         : 141
+Source Server Version : 50169
+Source Host           : 192.168.26.141:3306
 Source Database       : task
 
 Target Server Type    : MYSQL
-Target Server Version : 50508
+Target Server Version : 50169
 File Encoding         : 65001
 
-Date: 2014-01-14 21:55:37
+Date: 2014-01-15 21:51:18
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for account
+-- ----------------------------
+DROP TABLE IF EXISTS `account`;
+CREATE TABLE `account` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user` varchar(50) DEFAULT NULL,
+  `psw` varchar(50) DEFAULT NULL,
+  `postnum` int(11) NOT NULL DEFAULT '0',
+  `useful` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for article
@@ -36,7 +49,7 @@ CREATE TABLE `article` (
   `description` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `link` (`link`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=6602 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=8935 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for article_joke
@@ -88,7 +101,7 @@ CREATE TABLE `en_article` (
   PRIMARY KEY (`articleid`,`link`),
   KEY `articleid` (`articleid`,`link`) USING BTREE,
   KEY `link` (`link`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=233 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=323 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for getuser
@@ -115,7 +128,7 @@ CREATE TABLE `hotword` (
   `postnum` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `hotword` (`hotword`) USING BTREE
-) ENGINE=MyISAM AUTO_INCREMENT=2609 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3044 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for images
@@ -127,7 +140,7 @@ CREATE TABLE `images` (
   `src` varchar(250) DEFAULT NULL,
   `dir` varchar(250) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7208 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10065 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for reply
@@ -159,7 +172,7 @@ CREATE TABLE `send` (
   `collect` int(11) NOT NULL DEFAULT '0',
   `userid` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=13049 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=19813 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for twitter_reply
@@ -168,10 +181,11 @@ DROP TABLE IF EXISTS `twitter_reply`;
 CREATE TABLE `twitter_reply` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` varchar(255) DEFAULT NULL,
-  `pid` bigint(20) DEFAULT NULL,
+  `pid` bigint(20) NOT NULL,
   `isreply` int(11) NOT NULL DEFAULT '0',
   `gettime` datetime DEFAULT NULL,
   `replytime` datetime DEFAULT NULL,
   `replyer` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `nick` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`,`pid`)
+) ENGINE=InnoDB AUTO_INCREMENT=18643 DEFAULT CHARSET=utf8;
