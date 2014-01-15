@@ -23,7 +23,7 @@
 					foreach($__v['newsArticlesList'] as $____v)
 					{
 						$article[]= $____v;
-						echo $sql = "insert into article (title,link,source,snippet,gettime) values ('".str_conv($____v['title'])."','".str_conv($____v['link'])."','".str_conv($____v['source'])."','".str_conv($____v['snippet'])."','".time()."')";		
+						echo $sql = "insert into en_article (title,link,source,snippet,gettime) values ('".str_conv($____v['title'])."','".str_conv($____v['link'])."','".str_conv($____v['source'])."','".str_conv($____v['snippet'])."','".time()."')";		
 						mysql_query($sql); 
 					}
 				}

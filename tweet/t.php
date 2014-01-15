@@ -30,7 +30,7 @@ class TweetBot
 	
 	/*function*/
 	public function request($post=false){
-		$this->getUrl();
+		echo $this->getUrl();
 		if($this->conn!=null){
 			curl_setopt($this->conn, CURLOPT_URL, $this->getUrl());
 			if($post){
@@ -102,9 +102,8 @@ class TweetBot
 	}
 	public function login($user,$psw){
 		$this->setUrl("https://mobile.twitter.com/session");
-		$authenticity_token = $this->getToken();
-
-		return $html=$this->request("authenticity_token=$authenticity_token&username=".urlencode($user)."&password=$psw");
+		$authenticity_token = $this->token;
+		return $html=$this->request("authenticity_token={$authenticity_token}&username=$user&password=$psw");
 	}
 	public function discover($next_cursor=""){
 		$this->setUrl("https://mobile.twitter.com/api/universal_discover");
@@ -123,32 +122,36 @@ class TweetBot
 	public function getHeader(){
 		return $this->requestHeader;
 	}
-
-	public function getSearch($key="a",$next_cursor=false){
-		$this->setUrl("https://mobile.twitter.com/api/universal_search");
-		$next_cursor = $next_cursor?"&next_cursor=".$next_cursor:"";
-		$post_data = "q=".$key."&s=typd&modules=tweet%2Cuser%2Cuser_gallery%2Csuggestion%2Cnews%2Cevent%2Cmedia_gallery&pc=false".$next_cursor."&m5_csrf_tkn=omy2lydyxlf8c2s4g";
-		$html = $this->request($post_data);
-		$rs = json_decode(substr($html, strpos($html, '{"metadata":{"')),true);
-		return $rs;
-	}
-
-	public function reply($id,$msg)
-	{
-		$this->setUrl("https://mobile.twitter.com/api/tweet");
-		$post_data = "tweet%5Btext%5D=".urlencode($msg)."&tweet%5Bin_reply_to_status_id%5D=".$id."&m5_csrf_tkn=omy2lydyxlf8c2s4g";
-
-		return $this->request($post_data);
-	}
-
-	public function status_activity($id)
-	{
-		$this->setUrl("https://mobile.twitter.com/api/status_activity");
-		$post_data = "replyTo=".$id."&m5_csrf_tkn=omy2lydyxlf8c2s4g"; 
-		return $this->request($post_data);
-	}
-	
 	/*END-GET-SETTERS VARIABLE*/
 }
 ?>
 
+<?php
+	include(str_replace("\\", "/", dirname(__FILE__))."/conn.php");
+	$text='http://www.clshack.com';
+    $password='qingyu';
+	$username='cdn_01@126.com';  
+	$msg = "happy new year sss ".date("Y-m-d H:i:s",time());
+	$bot=new TweetBot(); 
+	echo "<hr>getToken<br>";
+	echo $authenticity_token=$bot->getToken();  
+	echo "<hr>login<br>";
+	$html=$bot->login($username,$password); 
+	echo "<hr>create<br>";
+	$html=$bot->create($msg); 
+	// echo "<hr>homeHtml<br>";
+
+	
+	echo $html = $bot->html("https://mobile.twitter.com/i/discover");
+	//print_r($bot->getHeader()) ;
+	// $html = $bot->discover();
+
+	// $content_arr = json_encode($html);
+
+	// print_r($content_arr);
+
+	// echo "<hr>getCookie<br>";
+	// echo $bot->getCookie();
+ 
+
+?> 

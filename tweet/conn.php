@@ -16,7 +16,48 @@
 	// require_once(WWW."curl.class.php");
 	// require_once(WWW."common.php");
 
-
+	function query($sql)
+	{
+		$rs = array();
+		$cmd = mysql_query($sql);
+		while ($res = mysql_fetch_assoc($cmd)) {
+			$rs[] = $res;
+		}
+		return $rs;
+	}
 	
+	function html_decode($str){
+		$str = str_replace("&#39;", "'", $str);
+		$str = str_replace("&quot;", '"', $str);
+		$str = str_replace("&nbsp;", ' ', $str);
+		$str = preg_replace("/<\/?(.*)>/iU", "", $str);
+		return $str;
+	}
+
+	function html($url,$post=false){
+		$ch = curl_init($url);
+	    curl_setopt($ch, CURLOPT_HEADER, 0); 
+	    curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
+	    curl_setopt($ch, CURLOPT_TIMEOUT, 60);
+	    if ($post){
+	            curl_setopt($ch, CURLOPT_POST, true);
+	      curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+	    }
+
+	    if ( strpos($url, 'https') !== false) {
+	      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	    } 
+	    $_str = curl_exec($ch);
+	    curl_close($ch); 
+	    return $_str;
+	}
+
+	function short_url($url){
+		$post_url = "http://is.gd/create.php";
+		$post_data = "url=".urlencode($url)."&shorturl=&opt=0" ;  
+		$html = html($post_url,$post_data); 
+		preg_match("/load_qrcode\('(.*)'\)/iU", $html , $matches);
+		return $matches[1];
+	} 
 	// mylog("sdf");s
 ?>

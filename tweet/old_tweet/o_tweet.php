@@ -82,16 +82,17 @@ class Bot
 <?php
 	header("Content-type:text/html;charset=utf-8");
 	date_default_timezone_set("Asia/Chongqing");
-	$text= "happy new year sss ".date("Y-m-d H:i:s",time());
+	echo $text= "happy new year sss ".date("Y-m-d H:i:s",time());
     $password='qingyu';
 	$username='cnd_01@126.com';
 
 	$bot=new Bot("https://mobile.twitter.com/session/new");
 	$html=$bot->request();
-	preg_match("/input name=\"authenticity_token\" type=\"hidden\" value=\"(.*?)\"/", $html, $authenticity_token);
-	$authenticity_token=$authenticity_token[1];	
+
+	preg_match("/input name=\"authenticity_token\" type=\"hidden\" value=\"(.*)\"/iU", $html, $authenticity_token);
+	echo $authenticity_token=$authenticity_token[1];	
 	$bot->setUrl("https://mobile.twitter.com/session");
-	$html=$bot->request("authenticity_token={$authenticity_token}&username=$username&password=$password");
+	echo $html=$bot->request("authenticity_token={$authenticity_token}&username=$username&password=$password");
 	$bot->setUrl("https://mobile.twitter.com/");	
-	$html=$bot->request("authenticity_token={$authenticity_token}&tweet[text]=$text&commit=Tweet");  
+	echo $html=$bot->request("authenticity_token={$authenticity_token}&tweet[text]=$text&commit=Tweet");  
 ?>
