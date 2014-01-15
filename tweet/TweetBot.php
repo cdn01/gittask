@@ -123,13 +123,22 @@ class TweetBot
 		return $this->requestHeader;
 	}
 
-	public function getSearch($key="a"){
+	public function getSearch($key="a",$next_cursor=false){
 		$this->setUrl("https://mobile.twitter.com/api/universal_search");
-		$post_data = "q=".$key."&s=typd&modules=tweet%2Cuser%2Cuser_gallery%2Csuggestion%2Cnews%2Cevent%2Cmedia_gallery&pc=true&m5_csrf_tkn=omy2lydyxlf8c2s4g";
+		$next_cursor = $next_cursor?"&next_cursor=".$next_cursor:"";
+		$post_data = "q=".$key."&s=typd&modules=tweet%2Cuser%2Cuser_gallery%2Csuggestion%2Cnews%2Cevent%2Cmedia_gallery&pc=false".$next_cursor."&m5_csrf_tkn=omy2lydyxlf8c2s4g";
 		$html = $this->request($post_data);
 		$rs = json_decode(substr($html, strpos($html, '{"metadata":{"')),true);
 		return $rs;
 	}
+
+	public function reply($id,$msg)
+	{
+		$this->setUrl("https://mobile.twitter.com/api/tweet");
+		$post_data = "tweet[text]=".$msg."&tweet[in_reply_to_status_id]=".$id."&m5_csrf_tkn=omy2lydyxlf8c2s4g";
+		return $this->request($post_data);
+	}
+
 	/*END-GET-SETTERS VARIABLE*/
 }
 ?>
@@ -177,17 +186,19 @@ class TweetBot
 	// $next_cursor = $modles["metadata"]["next_cursor"];
 	// $bot->discover($next_cursor);
 
-	$html = $bot->getSearch(); 
+	echo $cursor = $_GET["next"]?$_GET["next"]:"";
+	$html = $bot->getSearch("a",$cursor); 
+	print_r($html);
 	foreach($html["modules"] as $k=>$v){
-		$id = $v["news"]["data"]["id"];
-		$username = $v["news"]["data"]["user"]["screen_name"];
+		$id = $v["status"]["data"]["id"];
+		$username = $v["status"]["data"]["user"]["screen_name"];
 		if($username!="" and $username !=null){
-			$sql = "insert into en_reply (user,pid,gettime) values ('".$username."','".$id."','".date("Y-m-d H:i:s",time())."')";
+			$sql = "insert into twitter_reply (user,pid,gettime) values ('".$username."','".$id."','".date("Y-m-d H:i:s",time())."')";
 			mysql_query($sql);	
 		}
 	}
 
 ?>
 <script type='text/javascript'>
-	// 
+	//setTimeout("location.href='TweetBot.php?next=<?php echo $html['metadata']['cursor'];?>'",10000);
 </script>
