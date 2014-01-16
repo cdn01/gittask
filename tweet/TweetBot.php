@@ -1,36 +1,31 @@
 <?php
-/*
-http://www.clshack.com :D 
+/**
+* 
 */
+ 
 class TweetBot
 {
-	private $url;
-	private $conn;
-	private $user_agent;
-	private $debug=false;
-	private $cookie="";
-	private $token;
-	private $requestHeader;
-	
-	/*__construct*/
-	public function __construct($url_input=""){
-		$this->conn=curl_init();
-		$this->setUrl($url_input);
+
+	public $url;
+	public $conn;
+	public $user_agent;
+	public $debug=false;
+	public $cookie="";
+	public $token;
+	public $requestHeader;
+	public $cookie_dir = "";
+	function __construct($userid)
+	{    
+		$this->cookie_dir = "./cookie/cookie_".$userid.".txt";
+		$this->cookie = str_replace("\\", "/", dirname(__FILE__))."/cookie/cookie_".$userid.".txt"; 
+		if(!file_exists($this->cookie_dir)) {  
+			file_put_contents($this->cookie_dir, "");
+		}
+		$this->conn=curl_init(); 
 		$this->setUserAgent($this->getUserAgent());
 	}
-	/*END -__construct*/
-	/*__destruct*/
-	public function __destruct(){
-		$this->conn=null;
-		$this->url="";
-		$this->user_agent="";
-		$this->cookie="";
-    }
-	/*END __destruct*/
-	
-	/*function*/
-	public function request($post=false,$refer=false){
-		// echo $this->getUrl();
+
+	public function request($post=false,$refer=false){ 
 		if($this->conn!=null){
 			curl_setopt($this->conn, CURLOPT_URL, $this->getUrl());
 			if($post){
@@ -45,31 +40,29 @@ class TweetBot
 			}
 			curl_setopt($this->conn, CURLOPT_TIMEOUT, 60);
 			curl_setopt($this->conn, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($this->conn, CURLOPT_COOKIE, $this->cookie);
+			curl_setopt($this->conn, CURLOPT_COOKIEFILE, $this->cookie);
+			curl_setopt($this->conn, CURLOPT_COOKIEJAR, $this->cookie);
 			curl_setopt($this->conn, CURLOPT_HEADER, true);
 			curl_setopt($this->conn, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($this->conn, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($this->conn, CURLOPT_USERAGENT, $this->user_agent);
 			$html = curl_exec($this->conn);
-			$this->requestHeader = curl_getinfo($this->conn);
-			$this->setCookie($html);
+			$this->requestHeader = curl_getinfo($this->conn); 
+			$this->setCookie(); 
 			return $html;
 		}
 		return null;
 	}
-	public function setCookie($stream)
-    {
-            preg_match_all("/Set-Cookie: (.*?);/is", $stream, $matches);
-            $this->cookie = @implode(";", $matches[1]);
-            $this->cookie .= "; m5_csrf_tkn=omy2lydyxlf8c2s4g";
-    }
-    public function getCookie(){
-    	return $this->cookie;
-    }
-	public function closeConnection(){
-		if($this->conn!=null){
-			curl_close($this->conn);
+	function setCookie(){ 
+		$cookie_content = file_get_contents($this->cookie_dir);
+		if(strpos($cookie_content, "m5_csrf_tkn")===false){
+			$cookie_content .= "mobile.twitter.com	FALSE	/	FALSE	".(time()+60*60*24*365)."	m5_csrf_tkn	noksl3zeyv34fbjwh";
+			file_put_contents($this->cookie_dir , $cookie_content); 
 		}
+		
+	}
+	public function setUserAgent($agent){
+		$this->user_agent=$agent;
 	}
 	public function getUserAgent(){
 		$agents = array(
@@ -77,77 +70,57 @@ class TweetBot
 		);
 		return $agents[array_rand($agents)];
 	}
-	/*END- function*/
-	
-	/*GET-SETTERS VARIABLE*/
 	public function setUrl($url_input){
 		$this->url=$url_input;
 	}
 	public function getUrl(){
 		return $this->url;
 	}
-	public function setUserAgent($agent){
-		$this->user_agent=$agent;
+	function getCookieContent(){
+		return file_get_contents($this->cookie_dir);
 	}
-	public function getUserAgentVar(){
-		return $this->user_agent;
-	}
-	public function getToken(){ 
+	function getToken(){ 
 		$this->setUrl("https://mobile.twitter.com/session/new");
-		$html=$this->request();
+		echo $html=$this->request();
 		preg_match("/input name=\"authenticity_token\" type=\"hidden\" value=\"(.*?)\"/", $html, $authenticity_token);
-		return $this->token = $authenticity_token[1];	
+		print_r($authenticity_token);
+		$this->token = $authenticity_token[1];	
 	}
-	public function create($msg){
-		$this->setUrl("https://mobile.twitter.com/");	
-		$authenticity_token = $this->token; 
-		return $html=$this->request("authenticity_token={$authenticity_token}&tweet[text]=$msg&commit=Tweet");
-	}
-	public function login($user,$psw){
-		$this->setUrl("https://mobile.twitter.com/session");
-		$authenticity_token = $this->token;
-		return $html=$this->request("authenticity_token={$authenticity_token}&username=$user&password=$psw");
-	}
-	public function discover($next_cursor=""){
-		$this->setUrl("https://mobile.twitter.com/api/universal_discover");
-		$authenticity_token = $this->token;
-		if($next_cursor != ""){
-			$next_cursor = "&next_cursor=".$next_cursor;
+
+	function login($user,$psw){
+		if(strpos($this->getCookieContent(), "m5_csrf_tkn")===false){
+			$this->getToken(); 
+			$this->setUrl("https://mobile.twitter.com/session");
+			$authenticity_token = $this->token;
+			return $html=$this->request("authenticity_token={$authenticity_token}&username=$user&password=$psw");
 		}
-		$html=$this->request("m5_csrf_tkn=omy2lydyxlf8c2s4g&modules=status,wtf&scroll_dir=1".$next_cursor);
-		$response_arr= json_decode(substr($html, strpos($html, '{"modules"')),true);
-		return $response_arr;
 	}
-	public function html($url){
-		$this->setUrl($url);
-		return $html=$this->request();
+	// function create($msg){
+	// 	$this->setUrl("https://mobile.twitter.com/");	
+	// 	$authenticity_token = $this->token; 
+	// 	return $html=$this->request("authenticity_token={$authenticity_token}&tweet[text]=$msg&commit=Tweet");
+	// }
+	function create($msg){  
+		$this->setUrl("https://mobile.twitter.com/api/tweet");	
+		$authenticity_token = $this->token; 
+		return $html=$this->request("m5_csrf_tkn=noksl3zeyv34fbjwh&tweet[text]=$msg&commit=Tweet");
 	}
-	public function getHeader(){
-		return $this->requestHeader;
+
+	public function reply($id,$msg)
+	{
+		$this->setUrl("https://mobile.twitter.com/api/tweet");
+		$post_data = "tweet[text]=".$msg."&tweet[in_reply_to_status_id]=".$id."&m5_csrf_tkn=noksl3zeyv34fbjwh";
+		return $this->request($post_data);
 	}
 
 	public function getSearch($key="a",$next_cursor=false){
 		$this->setUrl("https://mobile.twitter.com/api/universal_search");
 		$next_cursor = $next_cursor?"&next_cursor=".$next_cursor:"";
 		$post_data = "q=".$key."&s=typd&modules=tweet%2Cuser%2Cuser_gallery%2Csuggestion%2Cnews%2Cevent%2Cmedia_gallery&pc=false".$next_cursor."&m5_csrf_tkn=omy2lydyxlf8c2s4g";
-		$html = $this->request($post_data);
+		echo $html = $this->request($post_data);
 		$rs = json_decode(substr($html, strpos($html, '{"metadata":{"')),true);
 		return $rs;
 	}
-
-	public function reply($id,$msg,$refer=false)
-	{
-		$this->setUrl("https://mobile.twitter.com/api/tweet");
-		$post_data = "tweet[text]=".$msg."&tweet[in_reply_to_status_id]=".$id."&m5_csrf_tkn=omy2lydyxlf8c2s4g";
-		echo $this->cookie;
-		return $this->request($post_data,$refer);
-	}
-
-	public function status_activity($id)
-	{
-		$this->setUrl("https://mobile.twitter.com/api/status_activity");
-		$post_data = "replyTo=".$id."&m5_csrf_tkn=omy2lydyxlf8c2s4g"; 
-		return $this->request($post_data);
-	}
 }
-?>
+
+?> 
