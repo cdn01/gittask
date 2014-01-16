@@ -2,11 +2,11 @@
 	include(str_replace("\\", "/", dirname(__FILE__))."/conn.php"); 
 	include(str_replace("\\", "/", dirname(__FILE__))."/TweetBot.php");  
     $password='qingyu';
-	$username='cmd_01@126.com';   
-	$bot = new TweetBot("cmd_01");    
+	$username='cdn_02@126.com';   
+	$bot = new TweetBot("cdn_02");    
 	$html=$bot->login($username,$password);  
 
-	$sql = "select * from en_article   order by replynum asc limit 1 ;";
+	$sql = "select * from en_article  order by replynum asc limit 1 ;";
 	$en_article = query($sql);  
 	$sql = "update en_article set ispost = 1 , replynum = replynum+1 where articleid = '".$en_article[0]['articleid']."'";
 	mysql_query($sql); 
@@ -21,5 +21,5 @@
 	$html = $bot->reply($reply[0]['pid'],$msg); 
 ?>
 <script type='text/javascript'>
-	 setTimeout("location.href='postreply.php'",1000*60*5);
+	 setTimeout("location.href='postreply_cdn_02.php'",1000*60*5);
 </script>
