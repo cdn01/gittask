@@ -2,8 +2,8 @@
 	include(str_replace("\\", "/", dirname(__FILE__))."/conn.php"); 
 	include(str_replace("\\", "/", dirname(__FILE__))."/TweetBot.php");  
     $password='qingyu';
-	$username='cmd_03@126.com';   
-	$bot = new TweetBot("cmd_03");    
+	$username='cmd_07@126.com';   
+	$bot = new TweetBot("cmd_07");    
 	$html=$bot->login($username,$password);  
 
 	$sql = "select * from en_article  order by replynum asc limit 1 ;";
@@ -21,5 +21,5 @@
 	$html = $bot->reply($reply[0]['pid'],$msg); 
 ?>
 <script type='text/javascript'>
-	 setTimeout("location.href='postreply_cmd_03.php'",1000*60*3);
+	 setTimeout("location.href='postreply_cmd_07.php'",1000*60*3);
 </script>
