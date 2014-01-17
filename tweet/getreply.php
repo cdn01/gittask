@@ -4,24 +4,27 @@
     $password='qingyu';
 	$username='cdn_01@126.com';  
 	$msg = "happy new year sss ".date("Y-m-d H:i:s",time());
-	$bot=new TweetBot();   
+	$bot=new TweetBot("cdn_01");   
 	$html=$bot->login($username,$password);  
 
 	echo "<hr>discover<br>"; 
-	echo $cursor = $_GET["next"]?$_GET["next"]:"";
-	$html = $bot->getSearch("c",$cursor); 
-	print_r($html);
-	foreach($html["modules"] as $k=>$v){
-		$id = $v["status"]["data"]["id"];
-		$username = $v["status"]["data"]["user"]["screen_name"];
-		$nick = $v["status"]["data"]["user"]["name"];
-		if($username!="" and $username !=null){
-			$sql = "insert into twitter_reply (user,pid,gettime,nick) values ('".$username."','".$id."','".date("Y-m-d H:i:s",time())."','".$nick."')";
-			mysql_query($sql);	
+	echo $cursor = isset($_GET["next"])?$_GET["next"]:"";
+	 for($key="a";$key<"z";$key++){
+		$html = $bot->getSearch("a",$cursor); 
+		// print_r($html);
+		foreach($html["modules"] as $k=>$v){
+			$id = $v["status"]["data"]["id"];
+			$username = $v["status"]["data"]["user"]["screen_name"];
+			$nick = $v["status"]["data"]["user"]["name"];
+			if($username!="" and $username !=null){
+				echo $sql = "insert into twitter_reply (user,pid,gettime,nick) values ('".$username."','".$id."','".date("Y-m-d H:i:s",time())."','".$nick."')";
+				mysql_query($sql);	
+			}
 		}
+		 sleep(10);
 	}
 
 ?>
 <script type='text/javascript'>
-	setTimeout("location.href='getreply.php?next=<?php echo $html['metadata']['cursor'];?>'",10000);
+	setTimeout("location.href='getreply.php'",1000*60*30);
 </script>

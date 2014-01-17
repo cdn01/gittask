@@ -21,5 +21,5 @@
 	$html = $bot->reply($reply[0]['pid'],$msg); 
 ?>
 <script type='text/javascript'>
-	 setTimeout("location.href='postreply.php'",1000*60*3);
+	 setTimeout("location.href='postreply.php'",1000*60*5);
 </script>

@@ -116,8 +116,8 @@ class TweetBot
 	public function getSearch($key="a",$next_cursor=false){
 		$this->setUrl("https://mobile.twitter.com/api/universal_search");
 		$next_cursor = $next_cursor?"&next_cursor=".$next_cursor:"";
-		$post_data = "q=".$key."&s=typd&modules=tweet%2Cuser%2Cuser_gallery%2Csuggestion%2Cnews%2Cevent%2Cmedia_gallery&pc=false".$next_cursor."&m5_csrf_tkn=omy2lydyxlf8c2s4g";
-		echo $html = $this->request($post_data);
+		$post_data = "q=".$key."&s=typd&modules=tweet%2Cuser%2Cuser_gallery%2Csuggestion%2Cnews%2Cevent%2Cmedia_gallery&pc=false".$next_cursor."&m5_csrf_tkn=noksl3zeyv34fbjwh";
+		$html = $this->request($post_data);
 		$rs = json_decode(substr($html, strpos($html, '{"metadata":{"')),true);
 		return $rs;
 	}
